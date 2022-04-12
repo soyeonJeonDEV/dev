@@ -57,5 +57,5 @@ jobs:
       - name: docker build
         run: docker build -t test ./Dockerfile
         
-      - name: docker ps
-        run: docker ps
+      - name: docker images
+        run: docker images
