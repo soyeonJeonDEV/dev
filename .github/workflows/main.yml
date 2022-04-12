@@ -42,4 +42,7 @@ jobs:
             ./gradlew build --no-daemon
             
       - name: check build
-        run: ls -al
+        run: |
+          gradle build
+          ls ./build/libs
+        
