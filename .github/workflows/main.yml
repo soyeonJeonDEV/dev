@@ -17,6 +17,10 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+  
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -81,6 +85,14 @@ jobs:
           cluster_name: ${{ secrets.CLUSTER_NAME }}
           location: ${{ secrets.LOCATION }}
           project_id: ${{ secrets.PROJECT_ID }}
+          
+      - name: upload file
+        id: 'upload-file'
+        uses: 'google-github-actions/upload-cloud-storage@v0'
+        with:
+          path: ./build/libs/*.war
+          destination: 'thdus'
+          parent: false
           
       - name: was-deploy restart
         run: kubectl rollout restart deploy/was
