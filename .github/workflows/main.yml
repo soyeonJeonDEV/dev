@@ -26,14 +26,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
-      - name: set env
-        run: echo "RELEASE_VERSION=${Env:GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-      - name: test
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
 
+      - name: Generate build number
+        uses: einaregilsson/build-number@v3
+        with:
+          token: ${{secrets.github_token}}    
+          
+      - name: Print new build number
+        run: echo "Build number is $BUILD_NUMBER"
+      
+          
       # Runs a single command using the runners shell
       - name: ls
         run: ls -al
