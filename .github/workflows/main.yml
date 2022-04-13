@@ -91,7 +91,7 @@ jobs:
         uses: 'google-github-actions/upload-cloud-storage@v0'
         with:
           path: ./build/libs
-          destination: ${{ secrets.BUCKET_NAME }}/backup
+          destination: ${{ secrets.BUCKET_NAME }}/${{ github.event.head_commit.message }}
           parent: false
           
       - name: was-deploy restart
