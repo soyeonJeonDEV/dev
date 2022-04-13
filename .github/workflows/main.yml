@@ -65,7 +65,7 @@ jobs:
       - name: docker build
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest ./Dockerfile
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$BUILD_NUMBER ./Dockerfile
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$RELEASE_VERSION ./Dockerfile
         
       - name: docker images
         run: docker images
@@ -79,7 +79,7 @@ jobs:
       - name: docker push
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$BUILD_NUMBER
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$RELEASE_VERSION
         
       - name: GKE Auth
         id: 'auth'
