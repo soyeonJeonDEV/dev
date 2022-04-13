@@ -92,7 +92,10 @@ jobs:
         with:
           path: ./build/libs
           destination: ${{ secrets.BUCKET_NAME }}/${{ github.event.head_commit.message }}
+          glob: '*.war'
           parent: false
           
       - name: was-deploy restart
         run: kubectl rollout restart deploy/was
+          
+
