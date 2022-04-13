@@ -67,5 +67,5 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: docker push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dv:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dv:tomcat_latest
         
