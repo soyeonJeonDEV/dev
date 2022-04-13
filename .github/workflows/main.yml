@@ -77,4 +77,7 @@ jobs:
           project_id: ${{ secrets.PROJECT_ID }}
           credentials: ${{ secrets.GCP_CREDENTAILS }}
           
+      - name: was-deploy restart
+        run: kubectl rollout restart deploy/was
+          
 
