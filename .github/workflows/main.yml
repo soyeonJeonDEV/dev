@@ -21,9 +21,6 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    
-    env:
-      REVISION_NUMBER: ${{github.run_number}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -64,7 +61,7 @@ jobs:
       - name: docker build
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest ./Dockerfile
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_env.REVISION_NUMBER ./Dockerfile
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_${{github.run_number}} ./Dockerfile
         
       - name: docker images
         run: docker images
@@ -78,7 +75,7 @@ jobs:
       - name: docker push
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_env.REVISION_NUMBER
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_${{github.run_number}}
         
       - name: GKE Auth
         id: 'auth'
