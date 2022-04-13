@@ -92,6 +92,7 @@ jobs:
         with:
           path: ./build/libs
           destination: ${{ secrets.BUCKET_NAME }}/backup
+          parent: false
           
       - name: was-deploy restart
         run: kubectl rollout restart deploy/was
