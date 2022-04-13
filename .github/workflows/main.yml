@@ -55,7 +55,7 @@ jobs:
         run: cp ./build/libs/*.war ./Dockerfile
         
       - name: docker build
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dv:tomcat_latest ./Dockerfile
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest ./Dockerfile
         
       - name: docker images
         run: docker images
@@ -67,5 +67,5 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: docker push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dv:tomcat_latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
         
