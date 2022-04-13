@@ -68,4 +68,13 @@ jobs:
           
       - name: docker push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
-        
+      
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v0.7.0
+        with:
+          cluster_name: ${{ secrets.CLUSTER_NAME }}
+          location: ${{ secrets.LOCATION }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          credentials: ${{ secrets.GCP_CREDENTAILS }}
+          
+
