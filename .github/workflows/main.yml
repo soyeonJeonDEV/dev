@@ -91,8 +91,7 @@ jobs:
         uses: 'google-github-actions/upload-cloud-storage@v0'
         with:
           path: ./build/libs
-          destination: 'thdus'
-          parent: false
+          destination: ${{ secrets.BUCKET_NAME }}/backup
           
       - name: was-deploy restart
         run: kubectl rollout restart deploy/was
