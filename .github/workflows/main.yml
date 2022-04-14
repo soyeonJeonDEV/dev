@@ -73,4 +73,3 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
           echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > kubeconfig.yaml
-          kubectl get node
