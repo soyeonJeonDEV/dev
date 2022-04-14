@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Set env
+        run: echo "DATE=$(date +%y-%m-%d-%H)" > GITHUB_ENV
+      
       
       - name: install jdk
         uses: actions/setup-java@v3
@@ -54,15 +57,15 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/m-dev:tomcat_$GITHUB_RUN_NUMBER
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Deploy
+        uses: safe2008/eks-actions@v0.0.4
+        env:
+          aws_access_key_id: ${{ secrets.AWS_KEYID }}
+          aws_secret_access_key: ${{ secrets.AWS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          cluster_name: ${{ secrets.CLUSTER_NAME }}
         with:
-          aws-access-key-id: ${{ secrets.AWS_KEYID }}
-          aws-secret-access-key: ${{ secrets.AWS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          
-      - name: BackUp war file
-        run: aws s3 sync ./build/libs s3://${{ secrets.BUCKET_NAME }}/$GITHUB_RUN_NUMBER
-        
-      - name: was-deploy restart
-        run: kubectl rollout restart deploy/was
+          args: | 
+            kubectl rollout restart deployment/was
+            aws s3 sync ./build/libs s3://${{ secrets.BUCKET_NAME }}/${{ github.run_number }}
+
