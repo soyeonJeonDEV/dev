@@ -16,6 +16,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
+      - name: install jdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+          
+      - name: gradle chmod
+        run: chmod +x ./gradlew
+          
+      - name: gradle build
+        run: ./gradlew build --no-daemon
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        
+      - name: copy war
+        run: cp ./build/libs/*.war ./Dockerfile
+      
           
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
