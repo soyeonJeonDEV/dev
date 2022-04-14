@@ -56,15 +56,12 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.KEY }}
+          aws-access-key-id: ${{ secrets.AWS_KEYID }}
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
-          aws-region: eu-north-1
+          aws-region: ${{ secrets.LOCATION }}
       
-      - name: make .kube directory 
-        run: aws eks --region eu-north-1 update-kubeconfig --name thdus
-        
-      - name: Copy files to the test website with the AWS CLI
-        run: aws s3 sync ./build/libs s3://thdus2/$GITHUB_RUN_NUMBER
+      - name: Provision cluster
+        uses: aws-actions/amazon-eks-fargate@v0.1
 
         
       - name: was-deploy restart
