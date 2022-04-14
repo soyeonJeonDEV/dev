@@ -39,10 +39,9 @@ jobs:
           aws-access-key-id: ${{ secrets.KEY }}
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
           aws-region: eu-north-1
-          
-      - name: Copy files to the test website with the AWS CLI
-        run: aws s3 sync ./build/libs s3://thdus2/${{ github.run_number }}
-    
-          
+      
+      - name: aws
+        run: aws eks --region eu-north-1 update-kubeconfig --name thdus
+        
       - name: was-deploy restart
         run: kubectl rollout restart deploy/was
