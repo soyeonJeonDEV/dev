@@ -29,18 +29,13 @@ jobs:
           
       - name: gradle build
         run: ./gradlew build --no-daemon
-      
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-        
+
       - name: copy war
         run: cp ./build/libs/*.war ./Dockerfile
           
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-access-key-id: ${{ secrets.KEY }}
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
           aws-region: eu-north-1
