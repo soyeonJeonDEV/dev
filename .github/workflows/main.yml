@@ -60,7 +60,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.ACCESS_KEY }}
           aws-region: eu-north-1
       
-      - name: aws
+      - name: make .kube directory 
         run: aws eks --region eu-north-1 update-kubeconfig --name thdus
         
       - name: Copy files to the test website with the AWS CLI
