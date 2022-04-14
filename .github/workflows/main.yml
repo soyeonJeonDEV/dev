@@ -16,14 +16,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
 
-      - name: Deploy
-        uses: safe2008/eks-actions@v0.0.4
-        env:
-          aws_access_key_id: ${{ secrets.AWS_KEYID }}
-          aws_secret_access_key: ${{ secrets.AWS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          cluster_name: ${{ secrets.CLUSTER_NAME }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          args: kubectl rollout restart deploy/was
+          aws-access-key-id: ${{ secrets.AWS_KEYID }}
+          aws-secret-access-key: ${{ secrets.AWS_KEY }}
+          aws-region: ${{ secrets.LOCATION }}
+          role-to-assume: ${{secrets.ROLE_ASSUME}}
+          
+      - name: was-deploy restart
+        run: kubectl rollout restart deploy/was
