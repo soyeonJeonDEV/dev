@@ -59,10 +59,24 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_KEYID }}
           aws-secret-access-key: ${{ secrets.AWS_KEY }}
           aws-region: ${{ secrets.LOCATION }}
-      
-      - name: Provision cluster
-        uses: aws-actions/amazon-eks-fargate@v0.1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
+      - name: deploy to cluster
+        uses: kodermax/kubectl-aws-eks@master 
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: my-app
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
-      - name: was-deploy restart
-        run: kubectl rollout restart deploy/was
+        
+      - name: verify deployment
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: rollout status deployment/my-app
